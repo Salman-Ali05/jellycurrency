@@ -1,0 +1,74 @@
+@font-face {
+    font-family: cryptoFont;
+    src: url("../font/Titillium_Web/TitilliumWeb-Light.ttf");
+}
+
+body {
+    margin: 0;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: cryptoFont;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 90%;
+    box-shadow: 5px 5px 5px #787878;
+    background: linear-gradient(#c7a648 0%, #e4b636 100%);
+    font-weight: bold;
+}
+
+.leftPart {
+    width: 50%;
+}
+
+.rightPartLogSignIn {
+    width: 50%;
+    background-color: #eeee;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.forms {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn, .inputs {
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 15px;
+    width: 80%;
+    font-family: cryptoFont;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn {
+    background: linear-gradient(#c7a648 0%, #e4b636 100%);
+    color: white;
+    font-weight: bold;
+    width: auto;
+    padding: 8px 2rem;
+}
+
+.inputs:focus {
+    outline: none;
+    border: solid 3px #C0C0C0;
+}

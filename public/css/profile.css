@@ -1,0 +1,110 @@
+@font-face {
+    font-family: cryptoFont;
+    src: url("../font/Titillium_Web/TitilliumWeb-Light.ttf");
+}
+
+body {
+    margin: 0;
+    font-family: cryptoFont;
+    background-color: #c4d4e0;
+}
+
+.container {
+    margin: 2rem;
+    display: flex;
+    border-radius: 5px;
+    height: 100%;
+    box-shadow: 0 0 5px #191919;
+    background-color: #eeee;
+}
+
+.menu {
+    width: 15%;
+    overflow: auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    border-radius: 5px;
+    background: linear-gradient(#434343 0%, #191919 100%);
+    justify-content: space-evenly;
+    font-weight: bold;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+}
+
+.menuItem {
+    width: 100%;
+}
+
+.menu .mainInfo {
+    width: 80%;
+    margin-left: auto;
+}
+
+.icons {
+    width: 15%;
+    position: relative;
+    left: -5%;
+    top: 20%;
+}
+
+.discon {
+    padding: 0.5rem;
+    border-radius: 2rem;
+    font-weight: bold;
+    background-color: #bb2124;
+    border: none;
+    color: white;
+}
+
+.discon:hover {
+    cursor: pointer;
+    background-color: #ce1619;
+}
+
+.mainInfo {
+    margin-left: 2%;
+    text-align: center;
+    width: 100%;
+}
+
+.alerts {
+    background: linear-gradient(to right, #c7a648 0%, #e4b636 100%);
+    /* background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
+                radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);  wow gradient*/
+    color: white;
+}
+
+.btn, .inputs {
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: none;
+    margin: 15px;
+    width: 80%;
+    font-family: cryptoFont;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn {
+    background: linear-gradient(#c7a648 0%, #e4b636 100%);
+    color: white;
+    font-weight: bold;
+    width: auto;
+    padding: 8px 2rem;
+}
+
+.inputs:focus {
+    outline: none;
+    border: solid 3px #C0C0C0;
+}
+
+.btn.delete{
+    background-color: #bb2124;
+}
