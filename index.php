@@ -10,6 +10,14 @@ include('./db/utilities.php');
 $data = [$_SESSION['id']];
 $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ? ORDER BY updated_at DESC", $data);
 
+// $res = getHistoryValues();
+// $hightsOnly = [];
+// $i = 0;
+// foreach ($res as $r) {
+//     $hightsOnly[$i] = $res[$i]['rate_high'];
+//     $i++;
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -53,43 +61,56 @@ $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ? ORDER BY updat
             </h1>
 
             <h1>My alerts :</h1>
+
             <div class="alerts">
-                <?php if (count($allAlerts) > 0) {
+                <?php
+                $alertCount = 0; // Variable de compteur d'alertes affichées
+
+                if (count($allAlerts) > 0) {
                     foreach ($allAlerts as $alert) {
-                        //HERE
-                        $apiData = makeAPiRequest($alert['currency']);
-                        $asset_id_base = $apiData['asset_id_base'];
-                        $asset_id_quote = $apiData['asset_id_quote'];
-                        $rate = $apiData['rate'];
+                        if ($alertCount < 2) {
+                            $apiData = makeAPiRequest($alert['currency']);
+                            $asset_id_base = $apiData['asset_id_base'];
+                            $asset_id_quote = $apiData['asset_id_quote'];
+                            $rate = $apiData['rate'];
                 ?>
-                        <div class="alert">
-                            <a href="./pages/alert/alert.php">
-                                <p><?= " $asset_id_quote is currently valuing $rate" ?></p>
+                            <div class="alert">
+                                <a href="./pages/alert/alert.php">
+                                    <p><?= "Your alert for : $asset_id_quote is currently valuing $rate" ?></p>
+                                    <p><?= "You will be notified if the $asset_id_quote is $alert[type] $alert[limit]" ?></p>
+                                </a>
+                            </div>
+                        <?php
+                            $alertCount++;
+                        } else { ?>
+                            <a href="./pages/alert/alert.php" style="align-self:center; text-decoration:none; color:black">
+                                <p>more ...</p>
                             </a>
-                        </div>
                     <?php
+                        }
                     }
-                } else { ?>
+                } else {
+                    ?>
                     <div class="alert">
                         <a href="./pages/alert/alert.php">
-                            <p><em>No alerts found :/ Click here to add new !</em></p>
+                            <p><em>No alerts found :/ Click here to add new!</em></p>
                         </a>
                     </div>
                 <?php
                 }
                 ?>
             </div>
+
+            <div class="graphs">
+                <h1>Some graph :</h1>
+            </div>
+
         </div>
 
     </div>
 
     <script src="./public/js/main.js"></script>
 
-    <!-- TO IMPLEMENT : Secure when more than 2 item
-    if ($alert == $allAlerts[2]) { ?>
-    <p style="align-self:center;">more ...</p>
-    break;
-} -->
 </body>
 
 </html>

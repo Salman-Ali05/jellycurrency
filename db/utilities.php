@@ -192,3 +192,40 @@ function getAllCurrency()
 
     curl_close($curl);
 }
+
+function getHistoryValues()
+{
+    $url = "https://rest.coinapi.io/v1/exchangerate/BTC/USD/history?period_id=1HRS&time_start=2023-07-01T00:00:00&time_end=2023-07-15T00:00:00&limit=100";
+
+    $curl = curl_init($url);
+
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'X-CoinAPI-Key: D8E98BD2-920A-40F7-BAA3-6892C418A306',
+        'X-RateLimit-Used: 1000000',
+        'X-RateLimit-Limit: 1000000',
+        'X-RateLimit-Remaining: 4000',
+        'X-RateLimit-Request-Cost: 1',
+        'X-RateLimit-Reset: 2023-05-05T12:00:00.0000001Z',
+        'X-RateLimit-Quota-Overage: ENABLED',
+        'X-RateLimit-Quota-Allocated: 10000',
+        'X-RateLimit-Quota-Remaining: 5000'
+    ]);
+
+    $response = curl_exec($curl);
+
+    if ($response === false) {
+        $error = curl_error($curl);
+        echo "Error: $error";
+    } else {
+        $responseData = json_decode($response, true);
+        return $responseData;
+    }
+
+    curl_close($curl);
+}
+
+
