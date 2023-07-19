@@ -38,13 +38,27 @@ include('../../db/utilities.php');
         </nav>
 
         <div class="mainInfo">
+
+            <?php
+            // messages info
+            if ($_GET) {
+                if ($_GET['msg'] == 'success') { ?>
+                    <div class="success">Profile successfully updated !</div>
+                <?php
+                } else { ?>
+                    <div class="errors">Failed to update the profile :/<div>
+            <?php
+                }
+            }
+            ?>
+
             <h1>Welcome back <?= $_SESSION['name']; ?> !</h1>
             <?php
             if ($_SESSION['pic'] != "") { ?>
-                <img src="../../public/images/<?= $_SESSION['pic'] ?>" width="20%">
+                <img src="../../public/images/<?= $_SESSION['pic'] ?>" width="15%">
             <?php
             } else { ?>
-                <img src="../../public/images/default_user.png" width="20%">
+                <img src="../../public/images/default_user.png" width="15%">
             <?php
             }
             ?>

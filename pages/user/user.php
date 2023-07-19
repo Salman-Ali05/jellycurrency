@@ -2,10 +2,12 @@
 
 include('../../db/utilities.php');
 
+// user API : 
+
 if ($_POST) {
-    $state = $_POST['state'];
+    $state = $_POST['state']; 
     switch ($state) {
-        case 'log': {
+        case 'log': { // to log to the app
                 if (logUser($_POST) == "Connected") {
                     header("location:../../index.php");
                 } else {
@@ -13,7 +15,7 @@ if ($_POST) {
                 }
                 break;
             }
-        case 'sub': {
+        case 'sub': { // to sub to the app
                 $data = [
                     $_POST['name'],
                     $_POST['email'],
@@ -27,9 +29,9 @@ if ($_POST) {
                 }
                 break;
             }
-        case 'update': {
+        case 'update': { // to update the current user
                 session_start();
-                if ($_FILES['pic']['name'] != "") {
+                if ($_FILES['pic']['name'] != "") { // case with pic
                     $file = $_FILES['pic']['name'];
                     $path = pathinfo($file);
                     $filename = $path['filename'];
@@ -43,18 +45,16 @@ if ($_POST) {
                         $_SESSION['id']
                     ];
                     if (execute("UPDATE users SET name = ?, email = ?, pic = ? WHERE id = ?", $data)) {
-                        echo "Successfully updated";
+                        session_destroy();
+                        logUser($_POST);
                         $_SESSION['email'] = $_POST['email'];
                         $_SESSION['name'] = $_POST['name'];
                         $_SESSION['pic'] = $_POST['pic'];
-                        session_destroy();
-                        logUser($_POST);
-                        header("location:profile.php");
+                        header("location:profile.php?msg=success");
                     } else {
-                        echo "Something went wrong !" . execute("UPDATE users SET name = ?, email = ?, pic = ? WHERE id = ?", $data);
-                        header("location:profile.php");
+                        header("location:profile.php?msg=errors");
                     }
-                } else {
+                } else { // case with no pic
                     $data = [
                         $_POST['name'],
                         $_POST['email'],
@@ -64,16 +64,14 @@ if ($_POST) {
                     if (execute("UPDATE users SET name = ?, email = ? WHERE id = ?", $data)) {
                         $_SESSION['email'] = $_POST['email'];
                         $_SESSION['name'] = $_POST['name'];
-                        header("location:profile.php");
-                        echo "Successfully updated";
+                        header("location:profile.php?msg=success");
                     } else {
-                        header("location:profile.php");
-                        echo "Something went wrong !" . execute("UPDATE users SET name = ?, email = ? WHERE id = ?", $data);
+                        header("location:profile.php?msg=errors");
                     }
                 }
                 break;
             }
-        case 'delete': {
+        case 'delete': { // delete the current user account and his alerts too
                 session_start();
                 $data = [
                     $_SESSION['id']
@@ -86,7 +84,7 @@ if ($_POST) {
                 }
                 break;
             }
-        case 'disconnect': {
+        case 'disconnect': { // logout to the app
                 session_unset();
                 session_destroy();
                 header("location:user.php");
@@ -99,6 +97,8 @@ if ($_POST) {
 }
 
 ?>
+
+<!-- HTML view to handle authentification -->
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,3 +1,5 @@
+// function to resize the body 
+
 document.querySelector("body").style.height = (window.innerHeight - 64) + "px";
 
 function resize() {
@@ -17,6 +19,8 @@ function hidePopup() {
     document.getElementById('popup').style.display = "none"
 }
 
+// retreive all the alerts of the user, Ajax method to get php values
+
 function getCronData() {
     return fetch('http://localhost/projects/TestTech/Jellyfish_Test/jellyfish/cron/cron.php', {
         method: 'POST',
@@ -26,6 +30,8 @@ function getCronData() {
         },
     }).then(response => response.json());
 }
+
+// api request to get the current rate of the currency
 
 function getCoinApiData(currency) {
     const url = `https://rest.coinapi.io/v1/exchangerate/BTC/${currency}`;
@@ -40,11 +46,12 @@ function getCoinApiData(currency) {
     }).then(response => response.json());
 }
 
+// my cron : will first get the alerts from the user, then make an api request on the coinapi with the currency from one alert (for each alerts, one api request is done)
+
 function cron() {
     getCronData()
         .then(alerts => {
-            // Traitement des données de l'API cron.php
-            for (let i = 0; i < alerts.length; i++) {
+            for (let i = 0; i < alerts.length; i++) { // loop to check one by one the rate of this currency
                 let currency = "";
                 let limit = "";
                 let type = "";
@@ -52,18 +59,18 @@ function cron() {
                 limit = alerts[i]['limit'];
                 type = alerts[i]['type'];
 
-                // Appeler getCoinApiData avec la currency dynamique
                 getCoinApiData(currency)
                     .then(apiData => {
-                        // Traitement des données de l'API CoinAPI
                         const theApiValue = apiData['rate'];
                         if (type == "above") {
                             if (theApiValue < limit) {
-                                console.log(currency + " is now above " + limit + " !");
+                                console.log(currency + " is now above " + limit + " !"); // display in the console the message 
+                                // or alert(currency + " is now above " + limit + " !");
                             }
                         } else {
                             if (theApiValue > limit) {
-                                console.log(currency + " is now below " + limit + " !");
+                                console.log(currency + " is now below " + limit + " !"); // display in the console the message 
+                                // or alert(currency + " is now below " + limit + " !");
                             }
                         }
                     })
@@ -77,7 +84,7 @@ function cron() {
         });
 }
 
-
-setInterval(() => {
-    cron();
-}, 15000);
+// check each currency rates every 15sec so the user can be alerted
+// setInterval(() => {
+//     cron();
+// }, 15000);

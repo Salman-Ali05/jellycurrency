@@ -1,4 +1,14 @@
 # jellycurrency
 Technical test of Jellyfish
 
-Comming soon
+Hello everyone ! So this was the Jellyfish technical test. 
+
+To launch it, you have to :
+- have an APPACH (I use wampserver64)
+- import the database (it is all local, you will find the database, with some data as tests, in the folder "db"), make sure to put the same name so the database connection wouldn't be affected
+- then in the localhost (usually localhost:3000), you can launch the project
+- final step, enjoy ;)
+
+Some awares : 
+- unfortunately, I have a free API key, so my number of request is limited, sometimes the app is making too many requests, the display will be filled by errors, because it couldn't store the API values :/
+- responsivity : please use the app on a computer or laptop, I didn't handled the responsive 🥲

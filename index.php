@@ -1,15 +1,19 @@
 <?php
 
 session_start();
+
+// if there's no user, you'll be redirected to the user form
 if (!isset($_SESSION['id'])) {
     header('Location: ./pages/user/user.php');
 }
 
 include('./db/utilities.php');
 
+// get all the user alerts for the dashboard
 $data = [$_SESSION['id']];
 $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ? ORDER BY updated_at DESC", $data);
 
+// some tries for the graphs
 // $res = getHistoryValues();
 // $hightsOnly = [];
 // $i = 0;
@@ -64,7 +68,7 @@ $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ? ORDER BY updat
 
             <div class="alerts">
                 <?php
-                $alertCount = 0; // Variable de compteur d'alertes affichées
+                $alertCount = 0; // security to display max 2 alerts, so the dashboard wouldn't seem too filled
 
                 if (count($allAlerts) > 0) {
                     foreach ($allAlerts as $alert) {
@@ -100,10 +104,10 @@ $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ? ORDER BY updat
                 }
                 ?>
             </div>
-
+<!-- 
             <div class="graphs">
                 <h1>Some graph :</h1>
-            </div>
+            </div> -->
 
         </div>
 

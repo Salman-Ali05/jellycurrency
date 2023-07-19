@@ -109,10 +109,6 @@ body {
     border: solid 3px #C0C0C0;
 }
 
-.btn.delete {
-    background-color: #bb2124;
-}
-
 .alerts {
     display: flex;
     justify-content: center;
@@ -158,9 +154,39 @@ body {
     text-align: center;
 }
 
-.iconClose{
+.iconClose {
     width: 5%;
     position: relative;
     left: 45%;
     top: 5px;
+}
+
+.errors {
+    padding: 1%;
+    position: absolute;
+    width: 30%;
+    right: 35%;
+    color: #bb2124;
+    text-align: center;
+    background-color: #ffffffad;
+    z-index: 99;
+    top: 2%;
+    font-weight: bold;
+    border-radius: 10px;
+    border: solid #bb2124 2px;
+}
+
+.success {
+    padding: 1%;
+    position: absolute;
+    width: 30%;
+    right: 35%;
+    color: #42ba96;
+    text-align: center;
+    background-color: #ffffffad;
+    z-index: 99;
+    top: 2%;
+    font-weight: bold;
+    border-radius: 10px;
+    border: solid #42ba96 2px;
 }

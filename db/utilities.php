@@ -1,10 +1,12 @@
 <?php
 
+// database credentials
 define('DBHOST', 'localhost');
 define('DBIDT', 'root');
 define('DBPASS', '');
 define('DBNAME', 'jellyfish_database');
 
+// connect to the database
 function connectBdd()
 {
     try {
@@ -19,35 +21,21 @@ function connectBdd()
     }
 }
 
+// hash the password using crypt method
 function hashPassword($post)
 {
     $salt = '$2y$11$' . substr(bin2hex(openssl_random_pseudo_bytes(32)), 0, 22);
     return crypt($post, $salt);
 }
 
+// check the password for more security
 function verifyPassword($post, $hashPassword)
 {
     return crypt($post, $hashPassword) == $hashPassword;
 }
 
-/**
- * select bdd function
- *
- * @param array $dataToSelect
- * @param string $table
- * @return array
- */
-function select($dataToSelect, $table)
-{
-    $mysql = connectBdd();
-    $select = implode(',', $dataToSelect);
-    $result = $mysql->prepare("SELECT $select FROM $table");
-    $result->execute();
-    $result = $result->fetchAll();
-    $mysql = null;
-    return $result;
-}
-
+// $sql = query like "SELECT ? FROM users", $data = data passed as second arg that fills the '?' to counter SQL injections
+// used in logUser()
 function selectOne($sql, $data)
 {
     $mysql = connectBdd();
@@ -68,6 +56,8 @@ function selectOne($sql, $data)
     return $result;
 }
 
+// $sql = query like "SELECT ? FROM users", $data = data passed as second arg that fills the '?' to counter SQL injections
+// will execute queries like "SELECT"
 function selectOneAll($sql, $data)
 {
     $mysql = connectBdd();
@@ -83,6 +73,9 @@ function selectOneAll($sql, $data)
     return $result;
 }
 
+
+// $sql = query like "SELECT ? FROM users", $data = data passed as second arg that fills the '?' to counter SQL injections
+// will execute queries like "UPDATE", or "DELETE"
 function execute($sql, $data)
 {
     try {
@@ -97,12 +90,14 @@ function execute($sql, $data)
     }
 }
 
+
+// logs the user if the credentials are correct
 function logUser($post)
 {
     $table = "users";
     $login = selectOne("SELECT * FROM $table WHERE name = ? OR email = ?", [$post['email'], $post['email']]);
     if ($login === false) {
-        return "Your name or email isn't correct :/";
+        return "<div class='errors'>Your name or email isn't correct :/</div>";
     } else {
         if ($login !== false && verifyPassword($post['password'], $login['password']) == true) {
             session_start();
@@ -116,13 +111,13 @@ function logUser($post)
             }
             return "Connected";
         } else {
-            return "The password isn't correct :/";
+            return "<div class='errors'>The password isn't correct :/</div>";
         }
     }
 }
 
 // API SIDE
-
+// get the current value of the currency
 function makeAPiRequest($currency)
 {
     $url = "https://rest.coinapi.io/v1/exchangerate/BTC/" . $currency;
@@ -158,9 +153,10 @@ function makeAPiRequest($currency)
     curl_close($curl);
 }
 
+// retreive all the currencies name
 function getAllCurrency()
 {
-    $url = "https://rest.coinapi.io/v1/assets/icons/32?X-CoinAPI-Key=D8E98BD2-920A-40F7-BAA3-6892C418A306";
+    $url = "https://rest.coinapi.io/v1/assets/icons/32";
 
     $curl = curl_init($url);
 
@@ -193,6 +189,9 @@ function getAllCurrency()
     curl_close($curl);
 }
 
+
+// get all the rates beetween USD and BTC from a period
+// unsed, I wanted to make some graphs on the dashboard, but the number of API queries is limited, so the display would be awful
 function getHistoryValues()
 {
     $url = "https://rest.coinapi.io/v1/exchangerate/BTC/USD/history?period_id=1HRS&time_start=2023-07-01T00:00:00&time_end=2023-07-15T00:00:00&limit=100";
@@ -227,5 +226,3 @@ function getHistoryValues()
 
     curl_close($curl);
 }
-
-

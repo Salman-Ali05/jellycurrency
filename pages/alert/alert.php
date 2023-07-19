@@ -3,10 +3,11 @@
 session_start();
 include('../../db/utilities.php');
 
+// alerts API :
 if ($_POST) {
     $state = $_POST['state'];
     switch ($state) {
-        case 'create': {
+        case 'create': { // create an alert
                 $data = [
                     $_SESSION['id'],
                     $_POST['currency'],
@@ -15,11 +16,11 @@ if ($_POST) {
                 ];
                 $insert = execute("INSERT INTO alerts (user_id, currency, `limit`, `type`) VALUES (?,?,?,?)", $data);
                 if ($insert != 0) {
-                    echo "data insert";
+                    echo "<div class='success'>Alerts successfully added !</div>";
                 }
                 break;
             }
-        case 'update': {
+        case 'update': { // update an alert
                 $data = [
                     $_POST['currency'],
                     $_POST['limit'],
@@ -28,20 +29,20 @@ if ($_POST) {
                     $_SESSION['id']
                 ];
                 if (execute("UPDATE alerts SET currency = ?, `limit` = ?, `type` = ? WHERE id = ? AND user_id = ?", $data)) {
-                    echo "data updated";
+                    echo "<div class='success'>Alerts successfully updated !</div>";
                 } else {
-                    echo "data failed";
+                    echo "<div class='errors'>Failed to update data :/ : " . execute("UPDATE alerts SET currency = ?, `limit` = ?, `type` = ? WHERE id = ? AND user_id = ?", $data) . "</div>";
                 }
                 break;
             }
-        case 'delete': {
+        case 'delete': { // delete an alert
                 $data = [
                     $_POST['id']
                 ];
                 if (execute("DELETE FROM alerts WHERE id = ?", $data)) {
-                    echo "Alerts deleted";
+                    echo "<div class='success'>Alert deleted !</div>";
                 } else {
-                    echo "Alerts not deleted" . execute("DELETE FROM alerts WHERE id = ?", $data);
+                    echo "<div class='errors'>Alert not deleted : " . execute("DELETE FROM alerts WHERE id = ?", $data) . "</div>";
                 }
                 break;
             }
@@ -50,13 +51,15 @@ if ($_POST) {
             }
     }
 }
+
+// retreive the alerts to display them in a table 
 $data = [$_SESSION['id']];
 $allAlerts = selectOneAll("SELECT * FROM alerts WHERE user_id = ?", $data);
 
 $allCurency = getAllCurrency();
 
 ?>
-
+<!-- HTML alert view -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,6 +72,7 @@ $allCurency = getAllCurrency();
 
 <body>
 
+<!-- POPUP -->
     <div id="overlay" class="overlay">
         <div class="popup" id="popup">
             <img src="../../public/icons/close.png" class="iconClose" onclick="hidePopup()">
@@ -95,6 +99,8 @@ $allCurency = getAllCurrency();
             </form>
         </div>
     </div>
+<!-- END POPUP -->
+
     <div class="container">
 
         <nav class="menu">
@@ -183,7 +189,7 @@ $allCurency = getAllCurrency();
                                             </form>
                                             <form action="alert.php" method="POST">
                                                 <input type="hidden" value="<?= $alert['id'] ?>" name="id" class="inputs" required>
-                                                <button type="submit" value="delete" name="state" class="btn delete">Delete my alert</button>
+                                                <button type="submit" value="delete" name="state" class="btn">Delete my alert</button>
                                             </form>
                                         </td>
 
