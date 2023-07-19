@@ -5,7 +5,8 @@ Hello everyone ! So this was the Jellyfish technical test.
 
 To launch it, you have to :
 - have an APACHE (I use wampserver64)
-- import the database (it is all local, you will find the database, with some data as tests, in the folder "db"), make sure to put the same name so the database connection wouldn't be affected
+- clone this repository in the local files of the apache (usually www)
+- import the database in a sql server (for exemple PHPMYADMIN as I used for this project and it is all local, you will find the database, with some data as tests, in the folder "db"), make sure to put the same name so the database connection wouldn't be affected
 - then in the localhost (usually localhost:3000), you can launch the project
 - final step, enjoy ;)
 
