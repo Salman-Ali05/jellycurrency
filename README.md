@@ -4,7 +4,7 @@ Technical test of Jellyfish
 Hello everyone ! So this was the Jellyfish technical test. 
 
 To launch it, you have to :
-- have an APPACH (I use wampserver64)
+- have an APACHE (I use wampserver64)
 - import the database (it is all local, you will find the database, with some data as tests, in the folder "db"), make sure to put the same name so the database connection wouldn't be affected
 - then in the localhost (usually localhost:3000), you can launch the project
 - final step, enjoy ;)
